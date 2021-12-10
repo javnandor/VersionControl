@@ -6,28 +6,26 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace Beadandó_7.Entities
+namespace Beadandó_7.Abstractions
 {
-    public class Ball: Label
+    abstract class Toy: Label
     {
-        public Ball()
+        public Toy()
         {
             AutoSize = false;
             Width = Height = 50;
             Paint += Ball_Paint;
         }
-            private void Ball_Paint(object sender, PaintEventArgs e)
-            {
-                DrawImage(e.Graphics);
-            }
-
-        void DrawImage(Graphics g)
+        private void Ball_Paint(object sender, PaintEventArgs e)
         {
-            g.FillEllipse(new SolidBrush(Color.Blue), 0, 0, Width, Height);
+            DrawImage(e.Graphics);
         }
+
+        protected abstract void DrawImage(Graphics g);
+   
         public void MoveBall()
         {
-            Left ++;
+            Left++;
         }
     }
 }
