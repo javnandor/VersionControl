@@ -8,13 +8,12 @@ using System.Threading.Tasks;
 
 namespace Beadandó_7.Entities
 {
-    public class BallFactory : IToyFactory
+    class Car : Toy
     {
-        public Color BallColor { get; set; }
-
-        public Toy CreateNew()
+        protected override void DrawImage(Graphics g)
         {
-            return new Ball(BallColor);
+            Image x = Image.FromFile("Images/car.png");
+            g.DrawImage(x, new Rectangle(0,0, this.Width, this.Height));
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Beadandó_7.Abstractions;
+using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
@@ -8,26 +9,18 @@ using System.Windows.Forms;
 
 namespace Beadandó_7.Entities
 {
-    public class Ball: Label
+    public class Ball:Toy
     {
-        public Ball()
-        {
-            AutoSize = false;
-            Width = Height = 50;
-            Paint += Ball_Paint;
-        }
-            private void Ball_Paint(object sender, PaintEventArgs e)
-            {
-                DrawImage(e.Graphics);
-            }
+        public SolidBrush BallBrush { get; private set; }
 
-        void DrawImage(Graphics g)
+        public Ball(Color kivantszin)
         {
-            g.FillEllipse(new SolidBrush(Color.Blue), 0, 0, Width, Height);
+            BallBrush = new SolidBrush(kivantszin);
         }
-        public void MoveBall()
+
+        protected override void DrawImage(Graphics g)
         {
-            Left ++;
+            g.FillEllipse(BallBrush, 0, 0, Width, Height);
         }
     }
 }
