@@ -32,12 +32,21 @@ namespace IRF_Harmadik_LINQ
                 string[] sor = sr.ReadLine().Split(';');
                 string orszag = sor[2];
                 //Lamda szintakszis: var ered = countries.Where(i => i.Name.Equals(orszag)).FirstOrDefault(); //FirstOrDefaul NULL értéket ad, ha nincs találat
-                AddCountry(orszag);
+                Country aktorszag = AddCountry(orszag);
+                Ramen r = new Ramen
+                {
+                    ID = ramens.Count,
+                    CountryFK = aktorszag.ID,
+                    Country = aktorszag,
+                    Rating = Convert.ToDouble(sor[3]),
+                    Name = aktorszag.Name,
+                    Brand = sor[0]
+                };
+                ramens.Add(r);
             }
             sr.Close();
-        
 
-            void AddCountry(string orszag)
+            Country AddCountry(string orszag)
             {
                 var ered = (from c in countries where c.Name.Equals(orszag) select c).FirstOrDefault();
                 if (ered == null)
@@ -49,6 +58,7 @@ namespace IRF_Harmadik_LINQ
                     };
                     countries.Add(ered);
                 }
+                return ered;
             }
         }
     }
