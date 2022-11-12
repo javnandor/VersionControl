@@ -16,6 +16,7 @@ namespace IRF_Harmadik_LINQ
 
         List<Country> countries = new List<Country>();
         List<Ramen> ramens = new List<Ramen>();
+        List<Brand> brands = new List<Brand>();
 
         public Form1()
         {
@@ -31,8 +32,10 @@ namespace IRF_Harmadik_LINQ
             {
                 string[] sor = sr.ReadLine().Split(';');
                 string orszag = sor[2];
+                string marka = sor[0];
                 //Lamda szintakszis: var ered = countries.Where(i => i.Name.Equals(orszag)).FirstOrDefault(); //FirstOrDefaul NULL értéket ad, ha nincs találat
                 Country aktorszag = AddCountry(orszag);
+                Brand aktmarka = AddBrand(marka);
                 Ramen r = new Ramen
                 {
                     ID = ramens.Count,
@@ -40,7 +43,7 @@ namespace IRF_Harmadik_LINQ
                     Country = aktorszag,
                     Rating = Convert.ToDouble(sor[3]),
                     Name = aktorszag.Name,
-                    Brand = sor[0]
+                    Brand = aktmarka
                 };
                 ramens.Add(r);
             }
@@ -57,6 +60,20 @@ namespace IRF_Harmadik_LINQ
                         Name = orszag
                     };
                     countries.Add(ered);
+                }
+                return ered;
+            }
+            Brand AddBrand(string marka)
+            {
+                var ered = (from c in brands where c.Name.Equals(marka) select c).FirstOrDefault();
+                if (ered == null)
+                {
+                    ered = new Brand
+                    {
+                        ID = brands.Count,
+                        Name = marka
+                    };
+                    brands.Add(ered);
                 }
                 return ered;
             }

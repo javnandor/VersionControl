@@ -6,14 +6,11 @@ using System.Threading.Tasks;
 
 namespace IRF_Harmadik_LINQ
 {
-    class Ramen
+    class Brand
     {
         public int ID { get; set; }
         public string Name { get; set; }
-        public Brand Brand { get; set; }
-        public int CountryFK { get; set; }
-        public Country Country { get; set; }
-        public Double Rating { get; set; }
+
 
     }
 }
