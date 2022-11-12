@@ -93,5 +93,31 @@ namespace IRF_Harmadik_LINQ
         {
             GetCountries();
         }
+
+        private void listBox1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            Country orszag = (Country)listBox1.SelectedItem;
+            if (orszag == null)
+            {
+                return;
+            }
+            var ered = from r in ramens
+                       where r.CountryFK == orszag.ID
+                       select r;
+
+            var ered2 = from d in ered
+                        group d.Rating by d.Brand.Name
+                        into f
+                        select new
+                        {
+                            Markanev = f.Key,
+                            Atlag = Math.Round(f.Average(), 2)
+                        };
+            var rendezes = from h in ered2
+                           orderby h.Atlag descending
+                           select h;
+
+            dataGridView1.DataSource = rendezes.ToList();
+        }
     }
 }
