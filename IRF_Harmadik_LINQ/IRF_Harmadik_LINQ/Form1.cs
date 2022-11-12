@@ -22,6 +22,7 @@ namespace IRF_Harmadik_LINQ
         {
             InitializeComponent();
             LoadData("ramen.csv");
+            GetCountries();
         }
 
         void LoadData(string fileName)
@@ -48,35 +49,49 @@ namespace IRF_Harmadik_LINQ
                 ramens.Add(r);
             }
             sr.Close();
+        }
 
-            Country AddCountry(string orszag)
+        Country AddCountry(string orszag)
+        {
+            var ered = (from c in countries where c.Name.Equals(orszag) select c).FirstOrDefault();
+            if (ered == null)
             {
-                var ered = (from c in countries where c.Name.Equals(orszag) select c).FirstOrDefault();
-                if (ered == null)
+                ered = new Country
                 {
-                    ered = new Country
-                    {
-                        ID = countries.Count,
-                        Name = orszag
-                    };
-                    countries.Add(ered);
-                }
-                return ered;
+                    ID = countries.Count,
+                    Name = orszag
+                };
+                countries.Add(ered);
             }
-            Brand AddBrand(string marka)
+            return ered;
+        }
+        Brand AddBrand(string marka)
+        {
+            var ered = (from c in brands where c.Name.Equals(marka) select c).FirstOrDefault();
+            if (ered == null)
             {
-                var ered = (from c in brands where c.Name.Equals(marka) select c).FirstOrDefault();
-                if (ered == null)
+                ered = new Brand
                 {
-                    ered = new Brand
-                    {
-                        ID = brands.Count,
-                        Name = marka
-                    };
-                    brands.Add(ered);
-                }
-                return ered;
+                    ID = brands.Count,
+                    Name = marka
+                };
+                brands.Add(ered);
             }
+            return ered;
+        }
+        void GetCountries()
+        {
+            var ered = from c in countries
+                       where c.Name.Contains(textBox1.Text)
+                       orderby c.Name
+                       select c;
+            listBox1.DataSource = ered.ToList();
+            listBox1.DisplayMember = "Name";
+        }
+
+        private void textBox1_TextChanged(object sender, EventArgs e)
+        {
+            GetCountries();
         }
     }
 }
