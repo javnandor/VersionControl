@@ -14,5 +14,6 @@ namespace IRF_Harmadik_LINQ
         public int CountryFK { get; set; }
         public Country Country { get; set; }
         public Double Rating { get; set; }
+
     }
 }
