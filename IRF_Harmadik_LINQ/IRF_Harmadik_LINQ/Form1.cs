@@ -15,6 +15,7 @@ namespace IRF_Harmadik_LINQ
     {
 
         List<Country> countries = new List<Country>();
+        List<Ramen> ramens = new List<Ramen>();
 
         public Form1()
         {
@@ -31,6 +32,13 @@ namespace IRF_Harmadik_LINQ
                 string[] sor = sr.ReadLine().Split(';');
                 string orszag = sor[2];
                 //Lamda szintakszis: var ered = countries.Where(i => i.Name.Equals(orszag)).FirstOrDefault(); //FirstOrDefaul NULL értéket ad, ha nincs találat
+                AddCountry(orszag);
+            }
+            sr.Close();
+        
+
+            void AddCountry(string orszag)
+            {
                 var ered = (from c in countries where c.Name.Equals(orszag) select c).FirstOrDefault();
                 if (ered == null)
                 {
@@ -42,7 +50,6 @@ namespace IRF_Harmadik_LINQ
                     countries.Add(ered);
                 }
             }
-            sr.Close();
         }
     }
 }
