@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+//using Microsoft.Office.Interop.Excel;
 using Excel = Microsoft.Office.Interop.Excel;
 using System.Reflection;
 
@@ -31,7 +32,7 @@ namespace Gyakorlat4
             {
                 xlApp = new Excel.Application();
                 xlWB = xlApp.Workbooks.Add();
-                xlSheet = xlWB.ActiveSheet();
+                xlSheet = xlWB.ActiveSheet;
 
                 CreateTable();
 
@@ -88,8 +89,23 @@ namespace Gyakorlat4
 
             Excel.Range r = xlSheet.get_Range(GetCell(2, 1), GetCell(flats.Count + 1, headers.Length));
             r.Value = values;
-            r = xlSheet.get_Range(GetCell(1,9),GetCell(flats.Count,9));
-            r.Value = "=1000000*" + GetCell(2,8) + "/" + GetCell(counter,9);
+            r = xlSheet.get_Range(GetCell(1,9),GetCell(flats.Count+1,9));
+            r.Value = "=1000000*" + GetCell(1,7) + "/" + GetCell(1,8);
+
+            Excel.Range headerRange = xlSheet.get_Range(GetCell(1, 1), GetCell(1, headers.Length));
+            headerRange.Font.Bold = true;
+            headerRange.VerticalAlignment = Excel.XlVAlign.xlVAlignCenter;
+            headerRange.HorizontalAlignment = Excel.XlHAlign.xlHAlignCenter;
+            headerRange.EntireColumn.AutoFit();
+            headerRange.RowHeight = 40;
+            headerRange.Interior.Color = Color.LightBlue;
+            headerRange.BorderAround2(Excel.XlLineStyle.xlContinuous, Excel.XlBorderWeight.xlThick);
+
+            r = xlSheet.UsedRange;
+            r.BorderAround2(Excel.XlLineStyle.xlContinuous, Excel.XlBorderWeight.xlThick);
+            r = xlSheet.get_Range(GetCell(2, 1), GetCell(flats.Count+1, 1));
+            r.Font.Bold = true;
+            r.Interior.Color = Color.LightYellow;
         }
 
         private string GetCell(int x, int y)
