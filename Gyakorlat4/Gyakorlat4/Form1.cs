@@ -106,6 +106,8 @@ namespace Gyakorlat4
             r = xlSheet.get_Range(GetCell(2, 1), GetCell(flats.Count+1, 1));
             r.Font.Bold = true;
             r.Interior.Color = Color.LightYellow;
+            r = xlSheet.get_Range(GetCell(2, 9), GetCell(flats.Count + 1, 9));
+            r.Interior.Color = Color.LightGreen;
         }
 
         private string GetCell(int x, int y)
