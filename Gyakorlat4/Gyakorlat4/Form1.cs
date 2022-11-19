@@ -14,7 +14,6 @@ namespace Gyakorlat4
 {
     public partial class Form1 : Form
     {
-
         List<Flat> flats;
         RealEstateEntities re = new RealEstateEntities();
         Excel.Application xlApp; // A Microsoft Excel alkalmazás
@@ -53,7 +52,6 @@ namespace Gyakorlat4
 
         private void CreateTable()
         {
-        
             string[] headers = new string[] {
              "Kód",
              "Eladó",
@@ -73,6 +71,7 @@ namespace Gyakorlat4
             }
 
             int counter = 0;
+            
             foreach (var f in flats)
             {
                 values[counter, 0] = f.Code;
@@ -86,6 +85,28 @@ namespace Gyakorlat4
                 values[counter, 8] = "";
                 counter++;
             }
+
+            Excel.Range r = xlSheet.get_Range(GetCell(2, 1), GetCell(flats.Count + 1, headers.Length));
+            r.Value = values;
+            r = xlSheet.get_Range(GetCell(1,9),GetCell(flats.Count,9));
+            r.Value = "=1000000*" + GetCell(2,8) + "/" + GetCell(counter,9);
+        }
+
+        private string GetCell(int x, int y)
+        {
+            string ExcelCoordinate = "";
+            int dividend = y;
+            int modulo;
+
+            while (dividend > 0)
+            {
+                modulo = (dividend - 1) % 26;
+                ExcelCoordinate = Convert.ToChar(65 + modulo).ToString() + ExcelCoordinate;
+                dividend = (int)((dividend - modulo) / 26);
+            }
+            ExcelCoordinate += x.ToString();
+
+            return ExcelCoordinate;
         }
 
         public Form1()
