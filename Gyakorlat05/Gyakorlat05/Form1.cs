@@ -9,6 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Windows.Forms.DataVisualization.Charting;
 using System.Xml;
 
 namespace Gyakorlat05
@@ -23,6 +24,22 @@ namespace Gyakorlat05
             dataGridView1.DataSource = Rates;
             //GetRates();
 
+            ReadXml();
+
+            chartRateData.DataSource = Rates;
+            chartRateData.Series[0].ChartType = SeriesChartType.Line;
+            chartRateData.Series[0].XValueMember = "date";
+            chartRateData.Series[0].YValueMembers = "value";
+            chartRateData.Series[0].BorderWidth = 2;
+            chartRateData.Legends[0].Enabled = false;
+            chartRateData.ChartAreas[0].AxisX.MajorGrid.Enabled = false;
+            chartRateData.ChartAreas[0].AxisY.MajorGrid.Enabled = false;
+            chartRateData.ChartAreas[0].AxisY.IsStartedFromZero = false;
+
+        }
+
+        private void ReadXml()
+        {
             XmlDocument xml = new XmlDocument();
             xml.LoadXml(GetRates());
             foreach (XmlElement item in xml.DocumentElement)
@@ -42,7 +59,6 @@ namespace Gyakorlat05
                     rd.Value = 0;
                 }
             }
-
         }
 
         private static string GetRates()
@@ -56,7 +72,7 @@ namespace Gyakorlat05
             };
             GetExchangeRatesResponseBody response = mnbService.GetExchangeRates(request);
             string result = response.GetExchangeRatesResult;
-            MessageBox.Show(result);
+            //MessageBox.Show(result);
             return result;
         }
     }
