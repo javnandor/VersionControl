@@ -18,6 +18,7 @@ namespace Gyakorlat6
         PortfolioEntities context = new PortfolioEntities();
         List<Tick> ticks;
         List<PortfolioItem> Portfolio = new List<PortfolioItem>();
+        List<decimal> Nyereségek = new List<decimal>();
 
         public Form1()
         {
@@ -26,7 +27,7 @@ namespace Gyakorlat6
             dataGridView1.DataSource = ticks;
             CreatePortfolio();
 
-            List<decimal> Nyereségek = new List<decimal>();
+
             int intervalum = 30;
             DateTime kezdőDátum = (from x in ticks select x.TradingDay).Min();
             DateTime záróDátum = new DateTime(2016, 12, 30);
@@ -44,6 +45,12 @@ namespace Gyakorlat6
                                       select x)
                                         .ToList();
             // MessageBox.Show(nyereségekRendezve[nyereségekRendezve.Count() / 5].ToString());
+           
+
+        }
+
+        private void Mentes()
+        {
             SaveFileDialog sfv = new SaveFileDialog();
             sfv.ShowDialog();
             using (StreamWriter sw = new StreamWriter(sfv.FileName))
@@ -54,7 +61,6 @@ namespace Gyakorlat6
                     sw.WriteLine(i.ToString() + " " + Nyereségek[i].ToString());
                 }
             }
-
         }
 
         private void CreatePortfolio()
@@ -81,6 +87,11 @@ namespace Gyakorlat6
                 value += (decimal)last.Price * item.Volume;
             }
             return value;
+        }
+
+        private void Mentés_Click(object sender, EventArgs e)
+        {
+            Mentes();
         }
     }
 }
